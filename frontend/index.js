@@ -14,9 +14,7 @@ const PORT = process.env.PORT || 5000;
 dbConn();
 
 // Apply Middleware
-app.use(cors({
-  origin: ''
-}));
+app.use(cors());
 app.use(express.json());
 
 // Set up routes

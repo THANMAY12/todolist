@@ -4,7 +4,7 @@ import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import './index.css';
 
-const API_URL = 'https://todolist-vg5o.onrender.com/tasks';
+const API_URL = 'http://localhost:5000/tasks';
 
 function App() {
   const [tasks, setTasks] = useState([]);
