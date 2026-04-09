@@ -14,10 +14,10 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 // Connect to MongoDB
 dbConn();
 
-// Allow frontend to talk to this backend (CORS fix)
 app.use(cors({
     origin: CORS_ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
 

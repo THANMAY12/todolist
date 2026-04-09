@@ -32,10 +32,4 @@ taskSchema.pre('save', function(next) {
   next();
 });
 
-// Enforce runValidators on update queries
-taskSchema.pre('findOneAndUpdate', function(next) {
-  this.options.runValidators = true;
-  next();
-});
-
 module.exports = mongoose.model('Task', taskSchema);

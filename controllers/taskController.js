@@ -96,13 +96,14 @@ const updateTask = async (req, res) => {
             return res.status(400).json({ success: false, message: "Bad ID format" });
         }
 
+        // Using $set to only update these two fields
         const task = await Task.findByIdAndUpdate(
             req.params.id, 
-            { 
+            { $set: { 
                title: req.body.title, 
                description: req.body.description 
-            }, 
-            { new: true, runValidators: true } // make sure rules apply here too
+            }}, 
+            { new: true }
         );
         
         if (!task) {
