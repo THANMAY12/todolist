@@ -3,10 +3,31 @@ const Task = require('../models/Task');
 // Get all tasks
 const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find().sort({ createdAt: -1 }); // Newest first
-        res.status(200).json(tasks);
+        const tasks = await Task.find().sort({ createdAt: -1 });
+        res.json(tasks);
     } catch (error) {
-        res.status(500).json({ message: "Failed to fetch tasks", error: error.message });
+        console.log(error);
+        res.status(500).send("Server error");
+    }
+};
+
+// Search tasks
+const searchTasks = async (req, res) => {
+    try {
+        const keyword = req.query.q;
+        if (!keyword) {
+            return res.status(400).send("Please provide a search keyword");
+        }
+        const tasks = await Task.find({
+            $or: [
+                { title: { $regex: keyword, $options: "i" } },
+                { description: { $regex: keyword, $options: "i" } }
+            ]
+        });
+        res.json(tasks);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Server error");
     }
 };
 
@@ -14,71 +35,80 @@ const getTasks = async (req, res) => {
 const getTaskById = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
-        if (!task) return res.status(404).json({ message: "Task not found" });
-        
-        res.status(200).json(task);
+        if (!task) {
+           return res.status(404).send("Task not found");
+        }
+        res.json(task);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching task", error: error.message });
+        console.log(error);
+        res.status(500).send("Server error");
     }
 };
 
 // Create a new task
 const createTask = async (req, res) => {
     try {
-        const { title, description } = req.body;
-        
-        if (!title || !description) {
-            return res.status(400).json({ message: "Please provide a title and description" });
+        if (!req.body.title || !req.body.description) {
+            return res.status(400).send("Missing title or description");
         }
         
-        const newTask = new Task({ title, description });
+        const newTask = new Task({ 
+            title: req.body.title, 
+            description: req.body.description 
+        });
         await newTask.save();
         
-        res.status(201).json({ message: "Task created successfully", task: newTask });
+        res.status(201).json({ message: "Created", task: newTask });
     } catch (error) {
-        res.status(500).json({ message: "Failed to create task", error: error.message });
+        console.log(error);
+        res.status(500).send("Server error");
     }
 };
 
 // Update an existing task
 const updateTask = async (req, res) => {
     try {
-        const { title, description } = req.body;
-        
         const task = await Task.findByIdAndUpdate(
             req.params.id, 
-            { title, description }, 
-            { new: true, runValidators: true }
+            { 
+               title: req.body.title, 
+               description: req.body.description 
+            }, 
+            { new: true }
         );
         
-        if (!task) return res.status(404).json({ message: "Task not found" });
+        if (!task) {
+            return res.status(404).send("Task not found");
+        }
         
-        res.status(200).json({ message: "Task updated", task });
+        res.json({ message: "Updated", task: task });
     } catch (error) {
-        res.status(500).json({ message: "Error updating task", error: error.message });
+        console.log(error);
+        res.status(500).send("Server error");
     }
 };
 
 // Update just the status of a task
 const updateTaskStatus = async (req, res) => {
     try {
-        const { status } = req.body;
-        
-        if (!['pending', 'in-progress', 'completed'].includes(status)) {
-            return res.status(400).json({ message: "Invalid status value" });
+        if (req.body.status !== 'pending' && req.body.status !== 'in-progress' && req.body.status !== 'completed') {
+            return res.status(400).send("Invalid status");
         }
 
         const task = await Task.findByIdAndUpdate(
             req.params.id,
-            { status },
+            { status: req.body.status },
             { new: true }
         );
 
-        if (!task) return res.status(404).json({ message: "Task not found" });
+        if (!task) {
+           return res.status(404).send("Task not found");
+        }
         
-        res.status(200).json({ message: "Status updated", task });
+        res.json({ message: "Status updated", task: task });
     } catch (error) {
-        res.status(500).json({ message: "Error updating status", error: error.message });
+        console.log(error);
+        res.status(500).send("Server error");
     }
 };
 
@@ -87,16 +117,20 @@ const deleteTask = async (req, res) => {
     try {
         const task = await Task.findByIdAndDelete(req.params.id);
         
-        if (!task) return res.status(404).json({ message: "Task not found" });
+        if (!task) {
+           return res.status(404).send("Task not found");
+        }
         
-        res.status(200).json({ message: "Task deleted successfully" });
+        res.send("Task deleted");
     } catch (error) {
-        res.status(500).json({ message: "Error deleting task", error: error.message });
+        console.log(error);
+        res.status(500).send("Server error");
     }
 };
 
 module.exports = {
     getTasks,
+    searchTasks,
     getTaskById,
     createTask,
     updateTask,

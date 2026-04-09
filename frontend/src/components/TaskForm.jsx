@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-function TaskForm({ onAdd }) {
+function TaskForm({ onAdd, loading }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim() || !description.trim()) return;
+    if (title.trim() === '' || description.trim() === '') return;
 
     onAdd({ title, description });
     setTitle('');
@@ -22,6 +22,7 @@ function TaskForm({ onAdd }) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required
+        disabled={loading}
       />
       <input 
         type="text" 
@@ -30,8 +31,11 @@ function TaskForm({ onAdd }) {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
+        disabled={loading}
       />
-      <button type="submit" className="submit-btn">Add Task</button>
+      <button type="submit" className="submit-btn" disabled={loading}>
+        {loading ? 'Adding...' : 'Add Task'}
+      </button>
     </form>
   );
 }

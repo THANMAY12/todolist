@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "To-Do List API",
+    "description": "Collection of endpoints for the To-Do task management application.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Tasks",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/tasks",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Search Tasks",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/tasks/search?q=todo",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "todo",
+              "description": "Keyword to search in task title or description"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Task By ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/tasks/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "60d5ecb8b392d70f00abcd12"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Task",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Buy groceries\",\n    \"description\": \"Milk, Bread, Eggs\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/tasks",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Task",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Buy groceries\",\n    \"description\": \"Milk, Bread, Eggs, Cheese\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/tasks/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "60d5ecb8b392d70f00abcd12"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Task Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"status\": \"completed\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/tasks/:id/status",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks",
+            ":id",
+            "status"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "60d5ecb8b392d70f00abcd12"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Task",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{base_url}}/tasks/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "60d5ecb8b392d70f00abcd12"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
+}

@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/taskController');
 
-// Define API routes for tasks
+// API routes for tasks
 router.get('/', taskController.getTasks);
+router.get('/search', taskController.searchTasks); 
 router.get('/:id', taskController.getTaskById);
 router.post('/', taskController.createTask);
 router.put('/:id', taskController.updateTask);
