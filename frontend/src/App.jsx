@@ -4,7 +4,7 @@ import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import './index.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/tasks';
+const API_URL = import.meta.env.VITE_API_URL ;
 
 function App() {
   const [tasks, setTasks] = useState([]);
