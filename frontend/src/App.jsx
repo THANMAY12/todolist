@@ -21,7 +21,8 @@ function App() {
     try {
       const response = await axios.get(API_URL);
       // Backend returns { success, data, message }
-      setTasks(response.data.data);
+      // Using || [] as safety net in case something goes wrong
+      setTasks(response.data.data || []);
       setError('');
     } catch (err) {
       console.log(err);
@@ -38,7 +39,9 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.post(API_URL, taskData);
-      setTasks([response.data.data, ...tasks]);
+      if (response.data.data) {
+        setTasks([response.data.data, ...tasks]);
+      }
       setError('');
     } catch (err) {
       console.log(err);
