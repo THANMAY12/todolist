@@ -60,6 +60,6 @@ Since the assignment requires hosting:
   4. Also add the Environment Variable `VITE_API_URL` pointing to your real Render backend backend URL (e.g. `https://my-backend-app.onrender.com/tasks`).
 
 ## Challenges Faced & Addressed
-- **CORS Errors**: Addressed successfully by including the `cors` package in the Express app and enforcing an environment variable origin match rather than wide-open permissions in production.
-- **Frontend State Management**: Addressed by making logical granular React components (TaskForm, TaskList) and properly handling data states utilizing structured asynchronous REST responses maping out explicit conditional logic rendering.
-- **Robustness**: Ensured full ReDoS sanitization on backend searches, thorough ID validation before performing Mongo document modifications, and customized HTTP status code messaging dynamically forwarded through the application flow.
+- **CORS Errors**: Kept getting blocked by CORS when the frontend tried calling the backend. Fixed it by adding the `cors` package and setting the allowed origin through an environment variable.
+- **Frontend State Management**: Was tricky keeping all the task data in sync after adding/deleting/editing. Solved it by lifting state up to `App.jsx` and passing down handlers as props to the child components.
+- **Search Bug**: Had a routing bug where `/search` was being caught by `/:id` since it came after it in the routes file. Fixed by moving the `/search` route above `/:id`.

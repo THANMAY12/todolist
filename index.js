@@ -14,14 +14,14 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 // Connect to MongoDB
 dbConn();
 
-// Apply Security and Request Middleware correctly
+// Allow frontend to talk to this backend (CORS fix)
 app.use(cors({
     origin: CORS_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
 }));
 app.use(express.json());
 
-// Set up standardized API routing
+// Connect task routes
 app.use('/tasks', taskRoutes);
 
 // Simple health check route
@@ -29,8 +29,7 @@ app.get('/', (req, res) => {
     res.json({ success: true, message: 'To-Do List API is running securely...' });
 });
 
-// Start the server natively
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server running effectively on port: ${PORT}`);
-    console.log(`Allowing CORS origin: ${CORS_ORIGIN}`);
+    console.log(`Server is running on port ${PORT}`);
 });

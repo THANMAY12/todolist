@@ -31,24 +31,24 @@ function TaskItem(props) {
         // EDIT MODE UI
         <>
           <div className="task-info">
-            <input 
-              type="text" 
-              value={editTitle} 
-              onChange={(e) => setEditTitle(e.target.value)} 
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
               disabled={props.loading}
               placeholder="Task Title"
             />
-            <input 
-              type="text" 
-              value={editDesc} 
-              onChange={(e) => setEditDesc(e.target.value)} 
+            <input
+              type="text"
+              value={editDesc}
+              onChange={(e) => setEditDesc(e.target.value)}
               disabled={props.loading}
               placeholder="Task Description"
             />
           </div>
           <div className="task-actions">
             <button className="action-btn" onClick={handleSave} disabled={props.loading}>Save</button>
-            <button className="action-btn cancel-btn" onClick={handleCancel} disabled={props.loading} style={{marginLeft: '4px'}}>Cancel</button>
+            <button className="action-btn cancel-btn" onClick={handleCancel} disabled={props.loading} style={{ marginLeft: '4px' }}>Cancel</button>
           </div>
         </>
       ) : (
@@ -60,7 +60,7 @@ function TaskItem(props) {
           </div>
           <div className="task-actions">
             <button className="action-btn" onClick={() => setIsEditing(true)} disabled={props.loading}>Edit</button>
-            <button 
+            <button
               className="action-btn"
               onClick={() => props.onToggleStatus(props.task._id, props.task.status)}
               title={isCompleted ? "Mark Pending" : "Mark Complete"}
@@ -68,12 +68,12 @@ function TaskItem(props) {
             >
               {isCompleted ? 'Uncheck' : 'Check'}
             </button>
-            <button 
+            <button
               className="action-btn delete-btn"
               onClick={() => props.onDelete(props.task._id)}
               title="Delete Task"
               disabled={props.loading}
-              style={{marginLeft: '4px', backgroundColor: '#e74c3c'}}
+              style={{ marginLeft: '4px', backgroundColor: '#e74c3c' }}
             >
               Del
             </button>
